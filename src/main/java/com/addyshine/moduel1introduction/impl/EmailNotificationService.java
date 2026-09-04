@@ -1,9 +1,11 @@
 package com.addyshine.moduel1introduction.impl;
 
 import com.addyshine.moduel1introduction.NotificationService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
- //@Component
+ @Component
+ @Qualifier("EMAILnotify")
 public class EmailNotificationService implements NotificationService {
 
     @Override

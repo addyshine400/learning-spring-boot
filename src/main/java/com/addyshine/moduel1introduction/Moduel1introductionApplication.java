@@ -1,14 +1,20 @@
 package com.addyshine.moduel1introduction;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class  Moduel1introductionApplication implements CommandLineRunner {
-	@Autowired
-	NotificationService notificationServiceobj;  //DEPENDENCY INJECTION
+	//@Autowired
+ final	NotificationService notificationServiceobj;  //DEPENDENCY INJECTION
+
+	public Moduel1introductionApplication( @Qualifier("EMAILnotify") NotificationService notificationServiceobj) {
+		this.notificationServiceobj = notificationServiceobj; // constructor DI
+	}
+
 
 	public static void main(String[] args) {
 
