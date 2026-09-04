@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class  Moduel1introductionApplication implements CommandLineRunner {
 	@Autowired
-	paymentService paymentService ;
+	NotificationService notificationServiceobj;  //DEPENDENCY INJECTION
 
 	public static void main(String[] args) {
 
@@ -16,7 +16,7 @@ public class  Moduel1introductionApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		paymentService.pay();
+		notificationServiceobj.send("Hello World");
 	}
 
 }
