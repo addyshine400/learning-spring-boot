@@ -16,33 +16,43 @@ public class EmployeeController {
 //        return "Hello World! AI is nothing without the human";
 //    }
 
-      private final EmployeeService employeeService;
+  private final EmployeeService employeeService;
 
   public EmployeeController(EmployeeService emplyeeService) {
     this.employeeService = emplyeeService;
   }
 
-  @GetMapping( path="/{employeeId}")
+  @GetMapping(path = "/{employeeId}")
   public EmployeeDTO getEmployeeById(@PathVariable Long employeeId) {
 
 
-      return  employeeService.getEmployeeById(employeeId);
+    return employeeService.getEmployeeById(employeeId);
   }
+
   @GetMapping
-    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false)  Integer age,
-                                  @RequestParam(required = false) String sortBy) {
-      return  employeeService.getAllEmployees();
+  public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age,
+                                           @RequestParam(required = false) String sortBy) {
+    return employeeService.getAllEmployees();
   }
+
   @PostMapping
   public EmployeeDTO addEmployee(@RequestBody EmployeeDTO inputEmployee) {
 
-    return  employeeService.addEmployee(inputEmployee);
+    return employeeService.addEmployee(inputEmployee);
 
   }
 
-  @PutMapping String updateEmployeeIs(){
-    return  " hello Put  kaise ho !!!!";
+
+  @PutMapping(path = "/{employeeId}")
+  public EmployeeDTO updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+    return employeeService.updateEmployeeById(employeeId, employeeDTO);
+  }
+
+  @DeleteMapping(path = "/{employeeId}")
+    public boolean deleteEmployeeById(@PathVariable long employeeId){
+     return  employeeService.deleteEmployeeById(employeeId);
+
+    }
   }
 
 
-}
