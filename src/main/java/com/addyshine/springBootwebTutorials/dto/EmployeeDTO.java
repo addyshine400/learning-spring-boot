@@ -1,74 +1,56 @@
 package com.addyshine.springBootwebTutorials.dto;
 
+import com.addyshine.annotations.EmployeeRoleValidation;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
+import lombok.*;
+
 import java.time.LocalDate;
 
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class EmployeeDTO {
     private Long id;
+
+    @NotEmpty(message = "NAME OF THE EMPLOYEE CANNOT BE EMPTY")
+    @Size(min= 3, max = 50, message="number of characters in name should be in the range(3,50)")
     private String name;
+
+    @NotBlank(message="email should not be null")
+    @Email(message= " Email should b a valid email")
     private String email;
+
+    @NotNull(message="age should not be null")
+    @Max(value=80 , message = "Age cannot be greater than 80")
+    @Min(value=18 , message=" age cannot be lesser than 18")
     private Integer age;
+
+
+    @NotEmpty(message=" the role of the user should not be null")
+    //@Pattern(regexp = "^(ADMIN|USER)$",message=" role of emplyee can either be USER or ADMIN" )
+
+    @EmployeeRoleValidation
+    private String role; //  ADMIN | USER
+
+
+    @NotNull(message="salary should not be null") @Positive(message = "sallary of employee should be positive")
+    @Digits(integer = 7,fraction = 2,message="salary cant be in the xxxxxx")
+
+    @DecimalMin(value="100.50")
+    @DecimalMax(value="10000.99")
+
+    private Double salary;
+
+    @PastOrPresent(message=" dateofjoining field in employee cant be in future")
     private LocalDate dateofjoining;
+
+
+    @AssertTrue(message="employee should be true")
+    @JsonProperty("isActive")
     private Boolean isActive;
 
-    public EmployeeDTO() {
-    }
 
-    public EmployeeDTO(Long id, String name, String email, Integer age, LocalDate dateofjoining, Boolean isActive) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.age = age;
-        this.dateofjoining = dateofjoining;
-        this.isActive = isActive;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public LocalDate getDateofjoining() {
-        return dateofjoining;
-    }
-
-    public void setDateofjoining(LocalDate dateofjoining) {
-        this.dateofjoining = dateofjoining;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        this.isActive = active;
-    }
 }

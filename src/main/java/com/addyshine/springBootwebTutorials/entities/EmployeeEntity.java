@@ -2,6 +2,7 @@ package com.addyshine.springBootwebTutorials.entities;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class EmployeeEntity {
     private String email;
     private Integer age;
     private LocalDate dateofjoining;
+    @JsonProperty("isActive")
     private Boolean isActive;
+    private String role;
+    private Double salary;
 
 }

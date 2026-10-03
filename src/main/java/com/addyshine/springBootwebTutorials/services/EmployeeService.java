@@ -1,10 +1,8 @@
-package com.addyshine.springBootwebTutorials.serices;
+package com.addyshine.springBootwebTutorials.services;
 
 import com.addyshine.springBootwebTutorials.dto.EmployeeDTO;
 import com.addyshine.springBootwebTutorials.entities.EmployeeEntity;
 import com.addyshine.springBootwebTutorials.repositories.EmployeeRepository;
-import org.apache.el.util.ReflectionUtil;
-import org.aspectj.util.Reflection;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -12,6 +10,7 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +26,10 @@ public class EmployeeService {
         this.modelMapper = modelMapper;
     }
 
-    public EmployeeDTO getEmployeeById(Long employeeId) {
-      EmployeeEntity employeeEntity    = employeeRepository.findById(employeeId).orElse(null);
+    public Optional<EmployeeDTO >getEmployeeById(Long employeeId) {
+//EmployeeEntity employeeEntity    = employeeRepository.findById(employeeId).orElse(null);
 
-      return modelMapper.map(employeeEntity,EmployeeDTO.class);
+return employeeRepository.findById(employeeId).map(employeeEntity ->  modelMapper.map(employeeEntity, EmployeeDTO.class));
 
     }
 
@@ -75,7 +74,9 @@ public class EmployeeService {
         EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
         updates.forEach((key, value) -> {
            Field fieldToBeUpdated = ReflectionUtils.findField(EmployeeEntity.class,key);
-           
+           fieldToBeUpdated.setAccessible(true);
+           ReflectionUtils.setField(fieldToBeUpdated,employeeEntity,value);
         });
+        return  modelMapper.map(employeeEntity,EmployeeDTO.class);
     }
 }

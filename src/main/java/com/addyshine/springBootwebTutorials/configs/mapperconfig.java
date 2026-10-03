@@ -13,7 +13,7 @@ public class mapperconfig {
     public ModelMapper modelMapper() {
 
         ModelMapper modelMapper= new ModelMapper();
-        modelMapper.typeMap(EmployeeDTO.class, EmployeeEntity.class).addMapping(EmployeeDTO::getActive,EmployeeEntity::setIsActive);
+        modelMapper.typeMap(EmployeeDTO.class, EmployeeEntity.class).addMapping(EmployeeDTO::getIsActive,EmployeeEntity::setIsActive);
         return modelMapper;
     }
 }
