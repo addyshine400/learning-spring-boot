@@ -2,9 +2,11 @@ package com.addyshine.springBootwebTutorials.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.addyshine.springBootwebTutorials.dto.EmployeeDTO;
+import com.addyshine.springBootwebTutorials.exception.ResourceNotFoundException;
 import com.addyshine.springBootwebTutorials.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -31,14 +33,18 @@ public class EmployeeController {
     Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(employeeId);
     return employeeDTO
             .map(employeeDTO1 ->ResponseEntity.ok(employeeDTO1) )
-            .orElse(ResponseEntity.notFound().build());
+            .orElseThrow(() ->  new ResourceNotFoundException("EMPLOYEE NOT FOUND with id: " + employeeId));
   }
+
+
 
   @GetMapping
   public ResponseEntity<List<EmployeeDTO>> getAllEmployees(@RequestParam(required = false) Integer age,
                                            @RequestParam(required = false) String sortBy) {
     return ResponseEntity.ok(employeeService.getAllEmployees());
   }
+
+
 
   @PostMapping
   public ResponseEntity<EmployeeDTO> addEmployee(@RequestBody @Valid EmployeeDTO inputEmployee) {
@@ -49,7 +55,7 @@ public class EmployeeController {
 
 
   @PutMapping(path = "/{employeeId}")
-  public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
+  public ResponseEntity<EmployeeDTO> updateEmployeeById(@RequestBody @Valid EmployeeDTO employeeDTO, @PathVariable Long employeeId) {
     return  ResponseEntity.ok (employeeService.updateEmployeeById(employeeId, employeeDTO));
   }
 
